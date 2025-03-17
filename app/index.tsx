@@ -10,6 +10,7 @@ export default function HomeScreen() {
   return (
     <SafeAreaView>
       <Image
+        // resizeMode="cover"
         source={require("@/assets/images/onboard1.png")}
         style={styles.bgImg}
       />
@@ -59,6 +60,7 @@ export default function HomeScreen() {
 
 const styles = StyleSheet.create({
   bgImg: {
+    width: "100%",
     height: "100%",
     resizeMode: "cover",
     position: "absolute",
@@ -74,7 +76,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     gap: 15,
     justifyContent: "center",
-    outline: "1px solid",
   },
   stepCircle: {
     width: 15,

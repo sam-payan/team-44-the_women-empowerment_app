@@ -57,6 +57,7 @@ export default function TabTwoScreen() {
           provide files for different screen densities
         </ThemedText>
         <Image
+        resizeMode="cover"
           source={require("@/assets/images/react-logo.png")}
           style={{ alignSelf: "center" }}
         />

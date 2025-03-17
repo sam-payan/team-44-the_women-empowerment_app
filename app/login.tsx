@@ -17,6 +17,8 @@ export default function HomeScreen() {
   return (
     <SafeAreaView>
       <Image
+        resizeMode="cover"
+
         source={require("@/assets/images/login.png")}
         style={styles.bgImg}
       />
@@ -85,7 +87,9 @@ const styles = StyleSheet.create({
   bgImg: {
     margin: 0,
     padding: 0,
-    resizeMode: "cover",
+    width: "100%",
+
+    // resizeMode: "cover",
     position: "absolute",
     top: StatusBar.currentHeight,
   },

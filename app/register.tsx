@@ -1,10 +1,8 @@
 import {
   Image,
-  KeyboardAvoidingView,
   StatusBar,
   StyleSheet,
   Text,
-  View,
 } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
 import { LinearGradient } from "expo-linear-gradient"
@@ -29,6 +27,7 @@ export default function RegisterScreen() {
       <Image
         source={require("@/assets/images/login.png")}
         style={styles.bgImg}
+        resizeMode="cover" 
       />
       <LinearGradient
         colors={["transparent", "#fff"]}
@@ -118,7 +117,8 @@ const styles = StyleSheet.create({
   bgImg: {
     margin: 0,
     padding: 0,
-    resizeMode: "cover",
+    width: "100%",
+    // resizeMode: "cover",
     position: "absolute",
     top: StatusBar.currentHeight,
   },
