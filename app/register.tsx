@@ -86,8 +86,8 @@ export default function RegisterScreen() {
             />
           }
         />
-        <Button mode="contained" buttonColor="#AC1754" onPress={handleRegister}>
-          Register
+        <Button mode="contained" buttonColor="#AC1754" onPress={handleRegister}><Link href = {"/otp"}>
+          Register</Link>
         </Button>
         <Button
           icon="google"
