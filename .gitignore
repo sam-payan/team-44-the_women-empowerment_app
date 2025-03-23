@@ -4,6 +4,7 @@
 
 expo-env.d.ts
 # @end expo-cli
+backend/config/serviceAccountKey.json
 
 node_modules
 .expo

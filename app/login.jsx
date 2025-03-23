@@ -2,17 +2,31 @@ import { Image, StatusBar, StyleSheet, Text, View } from "react-native"
 
 import { SafeAreaView } from "react-native-safe-area-context"
 import { LinearGradient } from "expo-linear-gradient"
-import { Link } from "expo-router"
+import { Link, router } from "expo-router"
 import { Button, TextInput } from "react-native-paper"
 import { useState } from "react"
+import { signIn } from "@/api/Auth"
 
 export default function HomeScreen() {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  })
   const [showPassword, setShowPassword] = useState(false)
-
-  const handleLogin = () => {
-    console.log("Login", email, password)
+  // handle input change
+  const handleInputChange = (name, value) => {
+    setFormData({ ...formData, [name]: value })
+  }
+  // handle login
+  const handleLogin = async () => {
+    const response = await signIn(formData);
+    console.log("Login Response:", response);
+    if (response.token) {
+      console.log("Login Successful:", response.token);
+      router.push("/(tabs)/tabHome");
+    } else {
+      console.log("Login Failed:", response.error);
+    }
   }
   return (
     <SafeAreaView>
@@ -32,30 +46,31 @@ export default function HomeScreen() {
           Login
         </Text>
         <TextInput
-          outlineColor="#AC1754"
-          activeOutlineColor="#AC1754"
-          label="Email"
-          value={email}
-          onChangeText={setEmail}
-          keyboardType="email-address"
-          autoCapitalize="none"
-          mode="outlined"
-        />
-        <TextInput
-          outlineColor="#AC1754"
-          activeOutlineColor="#AC1754"
-          label="Password"
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry={!showPassword}
-          mode="outlined"
-          right={
-            <TextInput.Icon
-              icon={showPassword ? "eye-off" : "eye"}
-              onPress={() => setShowPassword(!showPassword)}
-            />
-          }
-        />
+  outlineColor="#AC1754"
+  activeOutlineColor="#AC1754"
+  label="Email"
+  value={formData.email} 
+  onChangeText={(value) => handleInputChange("email", value)} 
+  keyboardType="email-address"
+  autoCapitalize="none"
+  mode="outlined"
+/>
+<TextInput
+  outlineColor="#AC1754"
+  activeOutlineColor="#AC1754"
+  label="Password"
+  value={formData.password}
+  onChangeText={(value) => handleInputChange("password", value)} 
+  secureTextEntry={!showPassword}
+  mode="outlined"
+  right={
+    <TextInput.Icon
+      icon={showPassword ? "eye-off" : "eye"}
+      onPress={() => setShowPassword(!showPassword)}
+    />
+  }
+/>
+
         <Button mode="contained" buttonColor="#AC1754" onPress={handleLogin}>
           Login
         </Button>
