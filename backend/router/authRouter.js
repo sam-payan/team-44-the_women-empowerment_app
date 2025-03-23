@@ -17,24 +17,25 @@ const transporter = nodemailer.createTransport({
 });
 
 // Generate OTP function
-const generateOtp = () => Math.floor(100000 + Math.random() * 900000).toString();
+const generateOtp = () => {
+    return Math.floor(1000 + Math.random() * 9000).toString(); 
+};
 
 router.post('/signup', async (req, res) => {
     try {
-        const { name, email, password, phone, pan_no } = req.body;
+        const { name, email, password, phone } = req.body;
 
         if (!name || !email || !password || !phone) {
             return res.status(400).json({ error: "Missing required fields" });
         }
 
-        // Generate OTP
+        // Generate a 4-digit OTP
         const otp = generateOtp();
 
         const userData = {
             name,
             email,
             password,
-            pan_no,
             phone
         };
 
@@ -46,13 +47,13 @@ router.post('/signup', async (req, res) => {
             from: process.env.SMTP_USER,
             to: email,
             subject: 'Your OTP for Registration',
-            // text: Your OTP for verification is: ${otp}. It expires in 5 minutes.
+            text: `Your OTP for verification is: ${otp}. It expires in 5 minutes.`
         };
 
         await transporter.sendMail(mailOptions); // Wait for email to send before responding
 
         return res.status(200).json({
-            message: "Volunteer registered successfully. OTP sent to email.",
+            message: "User registered successfully. OTP sent to email.",
             user: { id: userRef.id, ...userData },
             token, 
             status: 200,
@@ -64,7 +65,6 @@ router.post('/signup', async (req, res) => {
         return res.status(500).json({ error: "Internal server error" });
     }
 });
-
 router.post('/login', async (req, res) => {
     try {
         const { email, password } = req.body;

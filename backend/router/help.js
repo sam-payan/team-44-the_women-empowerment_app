@@ -14,20 +14,37 @@ router.get('/help', async (req, res) => {
     }
 });
 
-router.post('/help', async (req, res) => {
+router.post('/help/create', async (req, res) => {
     try {
-        const { status } = req.body;
-        const docRef = db.collection('sos_emergancy_location').doc(status);
-        await docRef.set({
-            status,
-            updated_at: new Date().toISOString()
-        });
-        res.status(200).json({ message: "Help status updated successfully" });
+        console.log("Received Data:", JSON.stringify(req.body, null, 2));
+
+        const { date, latitude, longitude, location, message, user_id, status, updated_at } = req.body;
+
+        if (!latitude || !longitude || !user_id) {
+            return res.status(400).json({ message: "Missing required fields", status: 400 });
+        }
+
+        const data = {
+            date: date || new Date().toISOString().split("T")[0], 
+            latitude: latitude || 0,
+            longitude: longitude || 0,
+            location: location || "",  // 🔥 Ensure "location" is never undefined
+            message: message || "No message provided",
+            user_id: user_id,
+            status: status || "pending",
+            updated_at: updated_at || new Date().toISOString(),
+        };
+
+        const docRef = db.collection('sos_emergancy_location').doc();
+        await docRef.set(data);
+
+        res.status(200).json({ message: "Help status updated successfully", status: 200 });
     } catch (error) {
-        console.error("Error updating help status:", error);
-        res.status(500).json({ message: "Internal Server Error" });
+        console.error("❌ Firestore Error:", error.message);
+        res.status(500).json({ message: "Internal Server Error", error: error.message });
     }
 });
+
 
 // update help status
 router.put('/help/update', async (req, res) => {

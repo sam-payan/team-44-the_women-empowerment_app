@@ -41,7 +41,7 @@ const HomeScreen = () => {
   const tabs = ["All Projects", "Courses", "Workspaces"];
 
   const handleEnroll = () => {
-    Alert.alert("Enrollment Successful", `You have enrolled in ${selectedCourse.title} for ${selectedCourse.details.price}`);
+    Alert.alert("Enrollment Successful You have enrolled in this course");
   };
 
   if (selectedCourse) {

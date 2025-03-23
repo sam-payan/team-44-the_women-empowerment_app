@@ -9,17 +9,36 @@ import { LinearGradient } from "expo-linear-gradient"
 import { Link } from "expo-router"
 import { Button, TextInput } from "react-native-paper"
 import { useState } from "react"
+import AsyncStorage from "@react-native-async-storage/async-storage"
+import { signUp } from "../api/Auth"
+import { router } from "expo-router"
 
 export default function RegisterScreen() {
-  const [username, setUsername] = useState("")
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [confirmPassword, setConfirmPassword] = useState("")
-  const [showPassword, setShowPassword] = useState(false)
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    phone:"",
+    confirmPassword: "",
+    pan_no:"",
+  })
 
-  const handleRegister = () => {
-    console.log("Register", username, email, password, confirmPassword)
+  // handle input change
+  const handleInputChange = (name, value) => {
+    setFormData({ ...formData, [name]: value })
+  }
+
+  const handleRegister = async () => {
+    const response = await signUp(formData);
+    console.log(response);
+    if (response.token) {
+      console.log("Register Successful:", response.token);
+      await AsyncStorage.setItem("authToken", response.token);
+      await AsyncStorage.setItem("otp", response.otp);
+      router.push("/otp");
+    } else {
+      console.log("Register Failed:", response.error);
+    }
   }
 
   return (
@@ -38,54 +57,48 @@ export default function RegisterScreen() {
           Register
         </Text>
         <TextInput
-          outlineColor="#AC1754"
-          activeOutlineColor="#AC1754"
-          label="Username"
-          value={username}
-          onChangeText={setUsername}
-          autoCapitalize="none"
-          mode="outlined"
-        />
-        <TextInput
-          outlineColor="#AC1754"
-          activeOutlineColor="#AC1754"
-          label="Email"
-          value={email}
-          onChangeText={setEmail}
-          keyboardType="email-address"
-          autoCapitalize="none"
-          mode="outlined"
-        />
-        <TextInput
-          outlineColor="#AC1754"
-          activeOutlineColor="#AC1754"
-          label="Password"
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry={!showPassword}
-          mode="outlined"
-          right={
-            <TextInput.Icon
-              icon={showPassword ? "eye-off" : "eye"}
-              onPress={() => setShowPassword(!showPassword)}
-            />
-          }
-        />
-        <TextInput
-          outlineColor="#AC1754"
-          activeOutlineColor="#AC1754"
-          label="Confirm Password"
-          value={confirmPassword}
-          onChangeText={setConfirmPassword}
-          secureTextEntry={!showConfirmPassword}
-          mode="outlined"
-          right={
-            <TextInput.Icon
-              icon={showConfirmPassword ? "eye-off" : "eye"}
-              onPress={() => setShowConfirmPassword(!showConfirmPassword)}
-            />
-          }
-        />
+  outlineColor="#AC1754"
+  activeOutlineColor="#AC1754"
+  label="Username"
+  value={formData.name}
+  onChangeText={(value) => handleInputChange("name", value)} // ✅ Fixed
+  autoCapitalize="none"
+  mode="outlined"
+/>
+
+<TextInput
+  outlineColor="#AC1754"
+  activeOutlineColor="#AC1754"
+  label="Email"
+  value={formData.email}
+  onChangeText={(value) => handleInputChange("email", value)} // ✅ Fixed
+  keyboardType="email-address"
+  autoCapitalize="none"
+  mode="outlined"
+/>
+
+<TextInput
+  outlineColor="#AC1754"
+  activeOutlineColor="#AC1754"
+  label="Phone"
+  value={formData.phone}
+  onChangeText={(value) => handleInputChange("phone", value)} // ✅ Fixed
+  keyboardType="number-pad"
+  autoCapitalize="none"
+  mode="outlined"
+/>
+
+<TextInput
+  outlineColor="#AC1754"
+  activeOutlineColor="#AC1754"
+  label="Password"
+  value={formData.password}
+  onChangeText={(value) => handleInputChange("password", value)} // ✅ Fixed
+  secureTextEntry
+  autoCapitalize="none"
+  mode="outlined"
+/>
+
         <Button mode="contained" buttonColor="#AC1754" onPress={handleRegister}><Link href = {"/otp"}>
           Register</Link>
         </Button>

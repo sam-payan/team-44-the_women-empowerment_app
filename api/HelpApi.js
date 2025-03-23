@@ -11,6 +11,14 @@ export const getHelp = async () => {
     console.log(error)
   }
 }
+export const createHelp = async (data) => {
+  try {
+    const response = await AxiosInstance.post('/help/create', data);
+    return response.data;
+  } catch (error) {
+    console.error("API Error:", error.response?.data || error.message);
+  }
+};
 
 export const updateHelp = async (id, status) => {
   try {

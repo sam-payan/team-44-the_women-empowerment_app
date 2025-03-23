@@ -52,6 +52,7 @@ const HomeScreen = () => {
         organization: "Clean Water Initiative",
         goals: ["Install 100 water pumps", "Educate communities on water hygiene"],
       }
+  
     },
     { 
       title: "Women Empowerment Organization", 

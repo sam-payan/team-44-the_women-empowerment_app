@@ -3,15 +3,23 @@ import { View, Text, StyleSheet } from "react-native";
 import { Button } from "react-native-paper";
 import OTPInputView from "react-native-otp-input";
 import { useRouter } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const OTPInputScreen = () => {
   const [otp, setOtp] = useState("");
   const router = useRouter();
 
-  const handleOTPSubmit = () => {
-    console.log("Entered OTP:", otp);
+  const handleOTPSubmit = async () => {
+    const storedOtp = await AsyncStorage.getItem('otp');
     router.push("/(tabs)/tabHome"); 
+    if (enteredOtp === storedOtp) {
+      console.log("OTP verified successfully");
+      await AsyncStorage.removeItem('otp');
+    } else {
+      Alert.alert("Invalid OTP", "Please enter the correct OTP.");
+    }
   };
+  
 
   return (
     <View style={styles.container}>
