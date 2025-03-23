@@ -46,9 +46,9 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="sos"
+        name="emergency"
         options={{
-          title: "SOS",
+          title: "sos",
           tabBarIcon: ({ color }) => (
             <Ionicons
               size={28}

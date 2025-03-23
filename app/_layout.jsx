@@ -41,6 +41,12 @@ export default function RootLayout() {
         <Stack.Screen name="login" />
         <Stack.Screen name="register" />
         <Stack.Screen name="+not-found" />
+        <Stack.Screen name = "sos" options={{ headerShown: true, title: "SOS", headerBackTitle: "Back" }}  />
+        <Stack.Screen name = "helpline" options={{ headerShown: true, title: "Helpline", headerBackTitle: "Back" }}  />
+        <Stack.Screen name = "record" options={{ headerShown: true, title: "Record", headerBackTitle: "Back" }}  />
+        <Stack.Screen name = "courseDetails" options={{ headerShown: true, title: "Course Details", headerBackTitle: "Back" }}  />
+        <Stack.Screen name = "track" options={{ headerShown: true, title: "Track", headerBackTitle: "Back" }}  />
+        <Stack.Screen name = "support" options={{ headerShown: true, title: "Support", headerBackTitle: "Back" }}  />
       </Stack>
       <StatusBar style="auto" />
     </ThemeProvider>
